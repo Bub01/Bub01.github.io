@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="zh_CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>花指令刷题小结 | Bub01</title><meta name="author" content="Bub01"><meta name="copyright" content="Bub01"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="y 花指令前言一直以来碰到的花指令挺多的，每次遇到都会写份题解，本文将先前遇到的花指令做个总结。 本文不用于系统学习花指令，仅对遇到过的较多情况进行总结。 绿城杯  esey_reIDA 打开发现 main 函数汇编正常。  F5 反编译失败，显然有花指令，且这种情况大概率跟跳转指令有关，因为写着JUMPOUT了（doge）  定位于此：  首先是固定跳转指令，该指令可以确定是 F5 失败的罪魁祸">
+<meta property="og:type" content="article">
+<meta property="og:title" content="花指令刷题小结">
+<meta property="og:url" content="https://bub01.github.io/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/index.html">
+<meta property="og:site_name" content="Bub01">
+<meta property="og:description" content="y 花指令前言一直以来碰到的花指令挺多的，每次遇到都会写份题解，本文将先前遇到的花指令做个总结。 本文不用于系统学习花指令，仅对遇到过的较多情况进行总结。 绿城杯  esey_reIDA 打开发现 main 函数汇编正常。  F5 反编译失败，显然有花指令，且这种情况大概率跟跳转指令有关，因为写着JUMPOUT了（doge）  定位于此：  首先是固定跳转指令，该指令可以确定是 F5 失败的罪魁祸">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-06-12T02:45:08.000Z">
+<meta property="article:modified_time" content="2023-06-12T09:07:15.273Z">
+<meta property="article:author" content="Bub01">
+<meta property="article:tag" content="-CTF -二进制 -reverse">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://bub01.github.io/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '花指令刷题小结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-12 17:07:15'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> H0m3</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> a1L</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> T0gs</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> Cat3g0r13s</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/%E4%BA%8C%E8%BF%9B%E5%88%B6/"><i class="fa-fw fas fa-archive"></i><span> 二进制</span></a></li><li><a class="site-page child" href="/CTF/"><i class="fa-fw fas fa-link"></i><span> CTF</span></a></li><li><a class="site-page child" href="/%E7%AE%97%E6%B3%95/"><i class="fa-fw fas fa-music"></i><span> 算法</span></a></li><li><a class="site-page child" href="/%E5%AF%86%E7%A0%81%E5%AD%A6/"><i class="fa-fw fas fa-video"></i><span> 密码学</span></a></li><li><a class="site-page child" href="/%E7%B3%BB%E7%BB%9F/"><i class="fa-fw fas fa-archive"></i><span> 系统</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> I</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Bub01"><span class="site-name">Bub01</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> H0m3</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> a1L</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> T0gs</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> Cat3g0r13s</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/%E4%BA%8C%E8%BF%9B%E5%88%B6/"><i class="fa-fw fas fa-archive"></i><span> 二进制</span></a></li><li><a class="site-page child" href="/CTF/"><i class="fa-fw fas fa-link"></i><span> CTF</span></a></li><li><a class="site-page child" href="/%E7%AE%97%E6%B3%95/"><i class="fa-fw fas fa-music"></i><span> 算法</span></a></li><li><a class="site-page child" href="/%E5%AF%86%E7%A0%81%E5%AD%A6/"><i class="fa-fw fas fa-video"></i><span> 密码学</span></a></li><li><a class="site-page child" href="/%E7%B3%BB%E7%BB%9F/"><i class="fa-fw fas fa-archive"></i><span> 系统</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> I</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">花指令刷题小结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-06-12T02:45:08.000Z" title="Created 2023-06-12 10:45:08">2023-06-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-06-12T09:07:15.273Z" title="Updated 2023-06-12 17:07:15">2023-06-12</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="花指令刷题小结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>y</p>
+<h1 id="花指令"><a href="#花指令" class="headerlink" title="花指令"></a>花指令</h1><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>一直以来碰到的花指令挺多的，每次遇到都会写份题解，本文将先前遇到的花指令做个总结。</p>
+<p>本文不用于系统学习花指令，仅对遇到过的较多情况进行总结。</p>
+<h3 id><a href="#" class="headerlink" title></a></h3><h4 id="绿城杯-esey-re"><a href="#绿城杯-esey-re" class="headerlink" title="绿城杯  esey_re"></a>绿城杯  esey_re</h4><p>IDA 打开发现 main 函数汇编正常。</p>
+<p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612161558460.png" alt="image-20230612161558460"></p>
+<p>F5 反编译失败，显然有花指令，且这种情况大概率跟跳转指令有关，因为写着JUMPOUT了（doge）</p>
+<p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612161704659.png" alt="image-20230612161704659"></p>
+<p>定位于此：</p>
+<p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612161859711.png" alt="image-20230612161859711"></p>
+<p>首先是固定跳转指令，该指令可以确定是 F5 失败的罪魁祸首，然后看到 jz 跳转的地址是 loc_40105c+1，说明下面的 or 指令有问题。</p>
+<p>再然后往下的三个 push 和 call memset 可议基本判断是对的。因此该处的花指令处理思路就是将 jz 改 jmp ，然后后续到 push 前的部分转成数据后重新转成代码即可。</p>
+<p>完成后发现可以发现这里的花指令其实就是一个固定跳转外加 0x11,0x22,0x33 三个字节。</p>
+<p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612162500595.png" alt="image-20230612162500595"></p>
+<p>F5查看效果：</p>
+<p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612162645380.png" alt="image-20230612162645380"></p>
+<h4 id="MoeCTF-2022-chicken-soup"><a href="#MoeCTF-2022-chicken-soup" class="headerlink" title="[MoeCTF 2022]chicken_soup"></a>[MoeCTF 2022]chicken_soup</h4><p>main函数正常，但有两个函数被识别错误：</p>
+<p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612163017412.png" alt="image-20230612163017412"></p>
+<p>观察其中的 jz、jnz、jmp，发现是矛盾跳外加错误 jmp。</p>
+<p>这里的错误 jmp 可以理解为与 call 同样的情况，jmp 会将后续的若干个字节当作操作数从而导致错误。</p>
+<p>修改思路是矛盾跳 nop 掉其中一个，另一个改为 jmp ，jmp 则将机器码 E9 孤立出来，后续字节重新转为代码。</p>
+<p>修改后效果图：</p>
+<p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612163652053.png" alt="image-20230612163652053"></p>
+<h4 id="NSSRound-3-Team-jump-by-jump"><a href="#NSSRound-3-Team-jump-by-jump" class="headerlink" title="[NSSRound#3 Team]jump_by_jump"></a>[NSSRound#3 Team]jump_by_jump</h4><p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612163822013.png" alt="image-20230612163822013"></p>
+<p>main函数无法 F5 ，且其中多处标红。</p>
+<p>基本思路：</p>
+<p>矛盾跳改一删一，call 指令后续因为不清楚影响了多少代码，因此将整个 loc_41188c 转为数据，然后忽略 E8 字节转代码。</p>
+<p>修改后效果：</p>
+<p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612164310766.png" alt="image-20230612164310766"></p>
+<h4 id="2023安洵杯-ez-cpp"><a href="#2023安洵杯-ez-cpp" class="headerlink" title="2023安洵杯-ez_cpp"></a>2023安洵杯-ez_cpp</h4><p>照常无法 F5 ，定位到此处：</p>
+<p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612170114046.png" alt="image-20230612170114046"></p>
+<p>该固定跳和 call 指令后续字节。</p>
+<p>后续还有两个函数跟这里的处理一模一样</p>
+<p>效果：</p>
+<p><img src="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/0myHexo\source_posts\花指令刷题小结\image-20230612170451839.png" alt="image-20230612170451839"></p>
+<p>总结了下发现自己遇到的花指令都大同小异，后续遇到难的或者没见过的再总结吧。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="https://Bub01.github.io">Bub01</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://bub01.github.io/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/">https://bub01.github.io/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CTF-%E4%BA%8C%E8%BF%9B%E5%88%B6-reverse/">-CTF -二进制 -reverse</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/06/10/%E6%B5%8B%E8%AF%95/" title="测试"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">测试</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Bub01</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Bub01"><i class="fab fa-github"></i><span>My github</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">Blog in progress @>@</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8A%B1%E6%8C%87%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">花指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.0.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.0.2.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%BF%E5%9F%8E%E6%9D%AF-esey-re"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">绿城杯  esey_re</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MoeCTF-2022-chicken-soup"><span class="toc-number">1.0.2.2.</span> <span class="toc-text">[MoeCTF 2022]chicken_soup</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NSSRound-3-Team-jump-by-jump"><span class="toc-number">1.0.2.3.</span> <span class="toc-text">[NSSRound#3 Team]jump_by_jump</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2023%E5%AE%89%E6%B4%B5%E6%9D%AF-ez-cpp"><span class="toc-number">1.0.2.4.</span> <span class="toc-text">2023安洵杯-ez_cpp</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/12/%E8%8A%B1%E6%8C%87%E4%BB%A4%E5%88%B7%E9%A2%98%E5%B0%8F%E7%BB%93/" title="花指令刷题小结">花指令刷题小结</a><time datetime="2023-06-12T02:45:08.000Z" title="Created 2023-06-12 10:45:08">2023-06-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/10/%E6%B5%8B%E8%AF%95/" title="测试">测试</a><time datetime="2023-06-10T08:24:00.000Z" title="Created 2023-06-10 16:24:00">2023-06-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/10/Linux%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6%E9%98%B6%E6%AE%B5%E6%80%BB%E7%BB%93-1/" title="Linux安全机制阶段总结(1)">Linux安全机制阶段总结(1)</a><time datetime="2023-06-09T19:16:57.000Z" title="Created 2023-06-10 03:16:57">2023-06-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/03/09/%E8%93%9D%E6%A1%A5%E6%9D%AF%E5%88%B7%E9%A2%98%E9%9B%86%E5%90%88/" title="蓝桥杯刷题集合">蓝桥杯刷题集合</a><time datetime="2023-03-09T12:53:26.000Z" title="Created 2023-03-09 20:53:26">2023-03-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/28/%E8%93%9D%E6%A1%A5%E6%9D%AF%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%90%88%E9%9B%86/" title="蓝桥杯数据结构合集">蓝桥杯数据结构合集</a><time datetime="2023-02-28T04:16:22.000Z" title="Created 2023-02-28 12:16:22">2023-02-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Bub01</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
